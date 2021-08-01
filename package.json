@@ -1,0 +1,13 @@
+{
+  "name": "event-loop-example",
+  "version": "1.0.0",
+  "description": "testing the node event loop",
+  "main": "eventloop.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node eventloop.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

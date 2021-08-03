@@ -10,11 +10,31 @@ server.on("request", (req, res) => {
 	//     res.end(data)
 	// });
 
-    // solution 2 - not streams
+	// solution 2 - streams
+	//this one will experience backpressure due to the read stream being
+	//faster than the back end can write it and send. CAN'T SEND AS FAST AS IT CAN RECIEVE
+	// const readable = fs.createReadStream("test-file.txt");
+	// readable.on("data", (chunk) => {
+	// 	//res is a writable stream
+	// 	res.write(chunk);
+	// });
+	//when it's done writing, end is emitted and res.end() occurs
+	//must have data and end
+	// 	readable.on("end", () => {
+	// 		res.end();
+	// 	});
+	// 	readable.on("error", (err) => {
+	// 		console.log(err);
+	// 		res.statusCode = 500;
+	// 		res.end(err);
+	// 	});
+
+	//solution 3 (pipe the output of the read stream to the input of the write stream)
+    //this will fix backpressure because it will automatically handle speed coming in and out.
+    //readablesource.pipe(writeableDest) example:
 	const readable = fs.createReadStream("test-file.txt");
-	readable.on("data", (chunk) => {
-		res.write(chunk);
-	});
+	readable.pipe(res);
+    
 });
 
 server.listen(8000, "127.0.0.1", () => {
